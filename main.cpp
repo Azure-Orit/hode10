@@ -17,6 +17,10 @@
 #include "resource.h"
 #include "system.h"
 #include "video.h"
+#include <fstream>
+#include <iostream>
+
+
 
 static const char *_title = "Heart of Darkness";
 
@@ -118,8 +122,14 @@ static int handleConfigIni(void *userdata, const char *section, const char *name
 	}
 	return 0;
 }
-
+using namespace std;
 int main(int argc, char *argv[]) {
+	ifstream fin("hode.ini");
+	if (fin.fail()) {
+		ofstream ini("hode.ini");
+		ini << "\n[engine]\n\n# disable animations playback\ndisable_paf = false\n\n# disable monsters handling code\ndisable_mst = false\n\n# disable sound handling code\ndisable_sss = false\n\n# disable menu and start game directly\ndisable_menu = false\n\n# maximum number of active sounds(original engine sets to 10 if a slow CPU or low memory is detected)\nmax_active_sounds = 16\n\n# 0:easy 1 : normal 2 : hard\ndifficulty = 0\n\n# frame duration in milliseconds(original is 80ms, eg. 12.5hz)\nframe_duration = 50\n\n# display splash screen when loading data files\nloading_screen = true\n\n\n[display]\n\n# scaling factor for game graphics(base resolution is 256x192)\nscale_factor = 4\n\n# scaling algorithm for game graphics('xbr' or 'nearest')\nscale_algorithm = xbr\n\n# gamma correction\ngamma = 1.0\n\n# fullscreen display\nfullscreen = true\n\n# widescreen(16:9)\nwidescreen = true";
+	}
+
 	char *dataPath = 0;
 	char *savePath = 0;
 	int level = 0;
